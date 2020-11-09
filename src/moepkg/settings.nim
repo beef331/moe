@@ -1,4 +1,5 @@
 import parsetoml, os, json, macros, times, options
+import nimscripted
 from strutils import parseEnum, endsWith, parseInt
 export TomlError
 
@@ -51,7 +52,6 @@ type DebugModeSettings* = object
   workSpace*: DebugWorkSpaceSettings
   windowNode*: DebugWindowNodeSettings
   bufStatus*: DebugBufferStatusSettings
-
 type NotificationSettings* = object
   screenNotifications*: bool
   logNotifications*: bool
@@ -1931,17 +1931,435 @@ proc validateTomlConfig(toml: TomlValueRef): Option[string] =
 
   return none(string)
 
+
+#Since it's proc based this is best I can think of with the current design
+var nimscriptSettings = initEditorSettings()
+
+block nimscriptProcs:
+  proc editorBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].editorBg = hexToColor(hexCol)
+
+  proc lineNum(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].lineNum = hexToColor(hexCol)
+
+  proc lineNumBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].lineNumBg = hexToColor(hexCol)
+
+  proc currentLineNum(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentLineNum = hexToColor(hexCol)
+
+  proc currentLineNumBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentLineNumBg = hexToColor(hexCol)
+
+  proc statusBarNormalMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarNormalMode = hexToColor(hexCol)
+
+  proc statusBarNormalModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarNormalModeBg = hexToColor(hexCol)
+
+  proc statusBarModeNormalMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeNormalMode = hexToColor(hexCol)
+
+  proc statusBarModeNormalModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeNormalModeBg = hexToColor(hexCol)
+
+  proc statusBarNormalModeInactive(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarNormalModeInactive = hexToColor(hexCol)
+
+  proc statusBarNormalModeInactiveBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarNormalModeInactiveBg = hexToColor(hexCol)
+
+  proc statusBarInsertMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarInsertMode = hexToColor(hexCol)
+
+  proc statusBarInsertModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarInsertModeBg = hexToColor(hexCol)
+
+  proc statusBarModeInsertMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeInsertMode = hexToColor(hexCol)
+
+  proc statusBarModeInsertModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeInsertModeBg = hexToColor(hexCol)
+
+  proc statusBarInsertModeInactive(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarInsertModeInactive = hexToColor(hexCol)
+
+  proc statusBarInsertModeInactiveBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarInsertModeInactiveBg = hexToColor(hexCol)
+
+  proc statusBarVisualMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarVisualMode = hexToColor(hexCol)
+
+  proc statusBarVisualModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarVisualModeBg = hexToColor(hexCol)
+
+  proc statusBarModeVisualMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeVisualMode = hexToColor(hexCol)
+
+  proc statusBarModeVisualModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeVisualModeBg = hexToColor(hexCol)
+
+  proc statusBarVisualModeInactive(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarVisualModeInactive = hexToColor(hexCol)
+
+  proc statusBarVisualModeInactiveBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarVisualModeInactiveBg = hexToColor(hexCol)
+
+  proc statusBarReplaceMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarReplaceMode = hexToColor(hexCol)
+
+  proc statusBarReplaceModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarReplaceModeBg = hexToColor(hexCol)
+
+  proc statusBarModeReplaceMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeReplaceMode = hexToColor(hexCol)
+
+  proc statusBarModeReplaceModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeReplaceModeBg = hexToColor(hexCol)
+
+  proc statusBarReplaceModeInactive(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarReplaceModeInactive = hexToColor(hexCol)
+
+  proc statusBarReplaceModeInactiveBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarReplaceModeInactiveBg = hexToColor(hexCol)
+
+  proc statusBarFilerMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarFilerMode = hexToColor(hexCol)
+
+  proc statusBarFilerModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarFilerModeBg = hexToColor(hexCol)
+
+  proc statusBarModeFilerMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeFilerMode = hexToColor(hexCol)
+
+  proc statusBarModeFilerModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeFilerModeBg = hexToColor(hexCol)
+
+  proc statusBarFilerModeInactive(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarFilerModeInactive = hexToColor(hexCol)
+
+  proc statusBarFilerModeInactiveBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarFilerModeInactiveBg = hexToColor(hexCol)
+
+  proc statusBarExMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarExMode = hexToColor(hexCol)
+
+  proc statusBarExModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarExModeBg = hexToColor(hexCol)
+
+  proc statusBarModeExMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeExMode = hexToColor(hexCol)
+
+  proc statusBarModeExModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarModeExModeBg = hexToColor(hexCol)
+
+  proc statusBarExModeInactive(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarExModeInactive = hexToColor(hexCol)
+
+  proc statusBarExModeInactiveBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarExModeInactiveBg = hexToColor(hexCol)
+
+  proc statusBarGitBranch(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarGitBranch = hexToColor(hexCol)
+
+  proc statusBarGitBranchBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].statusBarGitBranchBg = hexToColor(hexCol)
+
+  proc tab(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].tab = hexToColor(hexCol)
+
+  proc tabBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].tabBg = hexToColor(hexCol)
+
+  proc currentTab(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentTab = hexToColor(hexCol)
+
+  proc currentTabBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentTabBg = hexToColor(hexCol)
+
+  proc commandBar(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].commandBar = hexToColor(hexCol)
+
+  proc commandBarBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].commandBarBg = hexToColor(hexCol)
+
+  proc errorMessage(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].errorMessage = hexToColor(hexCol)
+
+  proc errorMessageBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].errorMessageBg = hexToColor(hexCol)
+
+  proc searchResult(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].searchResult = hexToColor(hexCol)
+
+  proc searchResultBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].searchResultBg = hexToColor(hexCol)
+
+  proc visualMode(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].visualMode = hexToColor(hexCol)
+
+  proc visualModeBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].visualModeBg = hexToColor(hexCol)
+
+  proc defaultChar(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].defaultChar = hexToColor(hexCol)
+
+  proc gtKeyword(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtKeyword = hexToColor(hexCol)
+
+  proc gtFunctionName(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtFunctionName = hexToColor(hexCol)
+
+  proc gtBoolean(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtBoolean = hexToColor(hexCol)
+
+  proc gtSpecialVar(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtSpecialVar = hexToColor(hexCol)
+
+  proc gtBuiltin(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtBuiltin = hexToColor(hexCol)
+
+  proc gtStringLit(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtStringLit = hexToColor(hexCol)
+
+  proc gtDecNumber(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtDecNumber = hexToColor(hexCol)
+
+  proc gtComment(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtComment = hexToColor(hexCol)
+
+  proc gtLongComment(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtLongComment = hexToColor(hexCol)
+
+  proc gtWhitespace(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtWhitespace = hexToColor(hexCol)
+
+  proc gtPreprocessor(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].gtPreprocessor = hexToColor(hexCol)
+
+  proc currentFile(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentFile = hexToColor(hexCol)
+
+  proc currentFileBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentFileBg = hexToColor(hexCol)
+
+  proc file(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].file = hexToColor(hexCol)
+
+  proc fileBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].fileBg = hexToColor(hexCol)
+
+  proc dir(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].dir = hexToColor(hexCol)
+
+  proc dirBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].dirBg = hexToColor(hexCol)
+
+  proc pcLink(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].pcLink = hexToColor(hexCol)
+
+  proc pcLinkBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].pcLinkBg = hexToColor(hexCol)
+
+  proc popUpWindow(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].popUpWindow = hexToColor(hexCol)
+
+  proc popUpWindowBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].popUpWindowBg = hexToColor(hexCol)
+
+  proc popUpWinCurrentLine(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].popUpWinCurrentLine = hexToColor(hexCol)
+
+  proc popUpWinCurrentLineBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].popUpWinCurrentLineBg = hexToColor(hexCol)
+
+  proc replaceText(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].replaceText = hexToColor(hexCol)
+
+  proc replaceTextBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].replaceTextBg = hexToColor(hexCol)
+
+  proc parenText(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].parenText = hexToColor(hexCol)
+
+  proc parenTextBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].parenTextBg = hexToColor(hexCol)
+
+  proc currentWordBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentWordBg = hexToColor(hexCol)
+
+  proc highlightFullWidthSpace(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].highlightFullWidthSpace = hexToColor(hexCol)
+
+  proc highlightFullWidthSpaceBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].highlightFullWidthSpaceBg = hexToColor(hexCol)
+
+  proc highlightTrailingSpaces(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].highlightTrailingSpaces = hexToColor(hexCol)
+
+  proc highlightTrailingSpacesBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].highlightTrailingSpacesBg = hexToColor(hexCol)
+
+  proc workSpaceBar(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].workSpaceBar = hexToColor(hexCol)
+
+  proc workSpaceBarBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].workSpaceBarBg = hexToColor(hexCol)
+
+  proc reservedWord(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].reservedWord = hexToColor(hexCol)
+
+  proc reservedWordBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].reservedWordBg = hexToColor(hexCol)
+
+  proc currentHistory(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentHistory = hexToColor(hexCol)
+
+  proc currentHistoryBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentHistoryBg = hexToColor(hexCol)
+
+  proc addedLine(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].addedLine = hexToColor(hexCol)
+
+  proc addedLineBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].addedLineBg = hexToColor(hexCol)
+
+  proc deletedLine(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].deletedLine = hexToColor(hexCol)
+
+  proc deletedLineBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].deletedLineBg = hexToColor(hexCol)
+
+  proc currentSetting(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentSetting = hexToColor(hexCol)
+
+  proc currentSettingBg(hexCol: string) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = config
+    ColorThemeTable[ColorTheme.config].currentSettingBg = hexToColor(hexCol)
+
+  proc theme(theme: ColorTheme) {.exportToScript.} =
+    nimscriptSettings.editorColorTheme = theme
+
+#Have to load nimscripter after all nimscripted code is ran, sucks i know
+import nimscripter
+
 proc loadSettingFile*(): EditorSettings =
-  let filename = getConfigDir() / "moe" / "moerc.toml"
-
-  if not fileExists(filename):
+  let 
+    tomlName = getConfigDir() / "moe" / "moerc.toml"
+    nimscriptName = getConfigDir() / "moe" / "moe.nims"
+    hasToml = fileExists(tomlName)
+    hasNimscript = fileExists(nimscriptName)
+  if not hasToml and not hasNimscript:
     return initEditorSettings()
+  if hasToml:
+    let
+      toml = parsetoml.parseFile(tomlName)
+      invalidItem = toml.validateTomlConfig
 
-  let
-    toml = parsetoml.parseFile(filename)
-    invalidItem = toml.validateTomlConfig
-
-  if invalidItem != none(string):
-    raise newException(InvalidItemError, $invalidItem)
-  else:
-    return parseSettingsFile(toml)
+    if invalidItem != none(string):
+      raise newException(InvalidItemError, $invalidItem)
+    else:
+      return parseSettingsFile(toml)
+  elif hasNimscript:
+    let stdlibPath = getConfigDir() / "moe" / "stdlib"
+    discard loadScript(nimscriptName, "color", stdPath = stdlibPath) #Will run all the body logic of `moe.nims`
+    result = nimscriptSettings
