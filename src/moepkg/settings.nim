@@ -10,130 +10,132 @@ when (NimMajor, NimMinor, NimPatch) > (1, 3, 0):
 
 import ui, color, unicodetext, highlight
 
-type DebugWorkSpaceSettings* = object
-  enable*: bool
-  numOfWorkSpaces*: bool
-  currentWorkSpaceIndex*: bool
+exportCode:
+  type DebugWorkSpaceSettings* = object
+    enable*: bool
+    numOfWorkSpaces*: bool
+    currentWorkSpaceIndex*: bool
 
-type DebugWindowNodeSettings* = object
-  enable*: bool
-  currentWindow*: bool
-  index*: bool
-  windowIndex*: bool
-  bufferIndex*: bool
-  parentIndex*: bool
-  childLen*: bool
-  splitType*: bool
-  haveCursesWin*: bool
-  y*: bool
-  x*: bool
-  h*: bool
-  w*: bool
-  currentLine*: bool
-  currentColumn*: bool
-  expandedColumn*: bool
-  cursor*: bool
+  type DebugWindowNodeSettings* = object
+    enable*: bool
+    currentWindow*: bool
+    index*: bool
+    windowIndex*: bool
+    bufferIndex*: bool
+    parentIndex*: bool
+    childLen*: bool
+    splitType*: bool
+    haveCursesWin*: bool
+    y*: bool
+    x*: bool
+    h*: bool
+    w*: bool
+    currentLine*: bool
+    currentColumn*: bool
+    expandedColumn*: bool
+    cursor*: bool
 
-type DebugBufferStatusSettings* = object
-  enable*: bool
-  bufferIndex*: bool
-  path*: bool
-  openDir*: bool
-  currentMode*: bool
-  prevMode*: bool
-  language*: bool
-  encoding*: bool
-  countChange*: bool
-  cmdLoop*: bool
-  lastSaveTime*: bool
-  bufferLen*: bool
+  type DebugBufferStatusSettings* = object
+    enable*: bool
+    bufferIndex*: bool
+    path*: bool
+    openDir*: bool
+    currentMode*: bool
+    prevMode*: bool
+    language*: bool
+    encoding*: bool
+    countChange*: bool
+    cmdLoop*: bool
+    lastSaveTime*: bool
+    bufferLen*: bool
 
-type DebugModeSettings* = object
-  workSpace*: DebugWorkSpaceSettings
-  windowNode*: DebugWindowNodeSettings
-  bufStatus*: DebugBufferStatusSettings
-type NotificationSettings* = object
-  screenNotifications*: bool
-  logNotifications*: bool
-  autoBackupScreenNotify*: bool
-  autoBackupLogNotify*: bool
-  autoSaveScreenNotify*: bool
-  autoSaveLogNotify*: bool
-  yankScreenNotify*: bool
-  yankLogNotify*: bool
-  deleteScreenNotify*: bool
-  deleteLogNotify*: bool
-  saveScreenNotify*: bool
-  saveLogNotify*: bool
-  workspaceScreenNotify*: bool
-  workspaceLogNotify*: bool
-  quickRunScreenNotify*: bool
-  quickRunLogNotify*: bool
-  buildOnSaveScreenNotify*: bool
-  buildOnSaveLogNotify*: bool
-  filerScreenNotify*: bool
-  filerLogNotify*: bool
-  restoreScreenNotify*: bool
-  restoreLogNotify*: bool
+  type DebugModeSettings* = object
+    workSpace*: DebugWorkSpaceSettings
+    windowNode*: DebugWindowNodeSettings
+    bufStatus*: DebugBufferStatusSettings
 
-type BuildOnSaveSettings* = object
-  enable*: bool
-  workspaceRoot*: seq[Rune]
-  command*: seq[Rune]
+  type NotificationSettings* = object
+    screenNotifications*: bool
+    logNotifications*: bool
+    autoBackupScreenNotify*: bool
+    autoBackupLogNotify*: bool
+    autoSaveScreenNotify*: bool
+    autoSaveLogNotify*: bool
+    yankScreenNotify*: bool
+    yankLogNotify*: bool
+    deleteScreenNotify*: bool
+    deleteLogNotify*: bool
+    saveScreenNotify*: bool
+    saveLogNotify*: bool
+    workspaceScreenNotify*: bool
+    workspaceLogNotify*: bool
+    quickRunScreenNotify*: bool
+    quickRunLogNotify*: bool
+    buildOnSaveScreenNotify*: bool
+    buildOnSaveLogNotify*: bool
+    filerScreenNotify*: bool
+    filerLogNotify*: bool
+    restoreScreenNotify*: bool
+    restoreLogNotify*: bool
 
-type QuickRunSettings* = object
-  saveBufferWhenQuickRun*: bool
-  command*: string
-  timeout*: int # seconds
-  nimAdvancedCommand*: string
-  ClangOptions*: string
-  CppOptions*: string
-  NimOptions*: string
-  shOptions*: string
-  bashOptions*: string
+  type BuildOnSaveSettings* = object
+    enable*: bool
+    workspaceRoot*: seq[Rune]
+    command*: seq[Rune]
 
-type AutoBackupSettings* = object
-  enable*: bool
-  idleTime*: int # seconds
-  interval*: int # minutes
-  backupDir*: seq[Rune]
-  dirToExclude*: seq[seq[Rune]]
+  type QuickRunSettings* = object
+    saveBufferWhenQuickRun*: bool
+    command*: string
+    timeout*: int # seconds
+    nimAdvancedCommand*: string
+    ClangOptions*: string
+    CppOptions*: string
+    NimOptions*: string
+    shOptions*: string
+    bashOptions*: string
 
-type FilerSettings = object
-  showIcons*: bool
+  type AutoBackupSettings* = object
+    enable*: bool
+    idleTime*: int # seconds
+    interval*: int # minutes
+    backupDir*: seq[Rune]
+    dirToExclude*: seq[seq[Rune]]
 
-type WorkSpaceSettings = object
-  workSpaceLine*: bool
+  type FilerSettings = object
+    showIcons*: bool
 
-type StatusBarSettings* = object
-  enable*: bool
-  merge*: bool
-  mode*: bool
-  filename*: bool
-  chanedMark*: bool
-  line*: bool
-  column*: bool
-  characterEncoding*: bool
-  language*: bool
-  directory*: bool
-  multipleStatusBar*: bool
-  gitbranchName*: bool
-  showGitInactive*: bool
-  showModeInactive*: bool
+  type WorkSpaceSettings = object
+    workSpaceLine*: bool
 
-type TabLineSettings* = object
-  useTab*: bool
-  allbuffer*: bool
+  type StatusBarSettings* = object
+    enable*: bool
+    merge*: bool
+    mode*: bool
+    filename*: bool
+    chanedMark*: bool
+    line*: bool
+    column*: bool
+    characterEncoding*: bool
+    language*: bool
+    directory*: bool
+    multipleStatusBar*: bool
+    gitbranchName*: bool
+    showGitInactive*: bool
+    showModeInactive*: bool
 
-type EditorViewSettings* = object
-  lineNumber*: bool
-  currentLineNumber*: bool
-  cursorLine*: bool
-  indentationLines*: bool
-  tabStop*: int
+  type TabLineSettings* = object
+    useTab*: bool
+    allbuffer*: bool
 
-type AutocompleteSettings* = object
-  enable*: bool
+  type EditorViewSettings* = object
+    lineNumber*: bool
+    currentLineNumber*: bool
+    cursorLine*: bool
+    indentationLines*: bool
+    tabStop*: int
+
+  type AutocompleteSettings* = object
+    enable*: bool
 
 type HighlightSettings* = object
   replaceText*: bool
@@ -2339,6 +2341,45 @@ block nimscriptProcs:
   proc theme(theme: ColorTheme) {.exportToScript.} =
     nimscriptSettings.editorColorTheme = theme
 
+  proc set(sbSettings: StatusBarSettings) {.exportToScript.} =
+    nimscriptSettings.statusBar = sbSettings
+  
+  proc set(tlSettings: TabLineSettings) {.exportToScript.} =
+    nimscriptSettings.tabLine = tlSettings
+  
+  proc set(evSettings: EditorViewSettings) {.exportToScript.} =
+    nimscriptSettings.view = evSettings
+
+  proc set(bonsSettings: BuildOnSaveSettings) {.exportToScript.} =
+    nimscriptSettings.buildOnSave = bonsSettings
+
+  proc set(wsSettings: WorkSpaceSettings) {.exportToScript.} =
+    nimscriptSettings.workSpace = wsSettings
+  
+  proc set(fSettings: FilerSettings) {.exportToScript.} =
+    nimscriptSettings.filerSettings = fSettings
+  
+  proc set(acSettings: AutocompleteSettings) {.exportToScript.} =
+    nimscriptSettings.autocompleteSettings = acSettings
+  
+  proc set(abSettings: AutoBackupSettings) {.exportToScript.} =
+    nimscriptSettings.autoBackupSettings = abSettings
+
+  proc set(qrSettings: QuickRunSettings) {.exportToScript.} =
+    nimscriptSettings.quickRunSettings = qrSettings
+
+  proc set(notSettings: NotificationSettings) {.exportToScript.} =
+    nimscriptSettings.notificationSettings = notSettings
+
+  proc set(dmSettings: DebugModeSettings) {.exportToScript.} =
+    nimscriptSettings.debugModeSettings = dmSettings
+  #[
+    #Todo - Figure out how to include reserved words
+    proc set(settings: HighlightSettings) {.exportToScript.} =
+      nimscriptSettings.highlightSettings = settings
+  ]#
+
+
 #Have to load nimscripter after all nimscripted code is ran, sucks i know
 import nimscripter
 
@@ -2361,5 +2402,5 @@ proc loadSettingFile*(): EditorSettings =
       return parseSettingsFile(toml)
   elif hasNimscript:
     let stdlibPath = getConfigDir() / "moe" / "stdlib"
-    discard loadScript(nimscriptName, "color", stdPath = stdlibPath) #Will run all the body logic of `moe.nims`
+    discard loadScript(nimscriptName, "unicode", stdPath = stdlibPath) #Will run all the body logic of `moe.nims`
     result = nimscriptSettings
