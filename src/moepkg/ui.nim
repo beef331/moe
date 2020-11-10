@@ -1,6 +1,7 @@
 import posix, strformat, osproc, strutils
 from os import execShellCmd
 import ncurses
+import nimscripted
 import unicodetext, color
 
 type Attributes* = enum
@@ -16,11 +17,12 @@ type Attributes* = enum
   protect = A_PROTECT
   #chartext = A_CHAR_TEXT
 
-type CursorType* = enum
-  blinkBlock = 0
-  noneBlinkBlock = 1
-  blinkIbeam = 2
-  noneBlinkIbeam = 3
+exportCode:
+  type CursorType* = enum
+    blinkBlock = 0
+    noneBlinkBlock = 1
+    blinkIbeam = 2
+    noneBlinkIbeam = 3
 
 type Window* = ref object
   cursesWindow*: PWindow

@@ -1936,29 +1936,68 @@ proc validateTomlConfig(toml: TomlValueRef): Option[string] =
 
 #Since it's proc based this is best I can think of with the current design
 var nimscriptSettings = initEditorSettings()
-
+var ctDocs{.compileTime.}: string
+const docs = ctDocs
+import strutils
 block nimscriptProcs:
   macro generateColorProcs(a: typed): untyped =
+    ##Foreach colour field expose a proc
     result = newStmtList()
     for def in a.getImpl()[2][2]:
       let 
         name = def[0][1]
         hexCol = ident("hexCol")
+      ctDocs &= ($name) & ": hexcolor \n"
       result.add quote do:
         proc `name`(`hexCol`: string) {.exportToScript.} =
           nimscriptSettings.editorColorTheme = config
           ColorThemeTable[ColorTheme.config].`name` = hexToColor(`hexCol`)
   
-  proc generateSetting(identDef: NimNode): NimNode =
+  proc generateSetting(identDef: NimNode, accessor: seq[NimNode] = @[]): NimNode =
+    ##Goes through all the values of editorsettings, 
+    ##recursively to expose them to nimscript
+    result = newEmptyNode()
     let 
       name = identDef[0][1]
       t = identDef[1]
       val = ident("val")
     if (t.kind == nnkSym and ($t) in ["bool", "int"]):
+      #For primtivies in editor settings
       result = quote do:
         proc `name`(`val`: `t`) {.exportToScript.}=
           nimscriptSettings.`name` = `val`
-    else: result = newEmptyNode()
+      if accessor.len > 0:
+        var newName = $accessor[0]
+        var dotExpr = newDotExpr(result[^1][0][0][0], accessor[0])
+        for x in 1..<accessor.len:
+          newName &= ($accessor[x])
+          dotExpr = newDotExpr(dotExpr, accessor[x])
+        result[0] = ident(newName.replace("Settings") & ($name))
+        result[^1][0][0] = newDotExpr(dotExpr, name)
+      ctDocs &= ($result[0]) & " : " & ($t) & "\n"
+    elif t.kind == nnkSym:
+      let impl = t.getImpl()
+      if impl.kind != nnkNilLit and impl[2].kind == nnkObjectTy:
+        #For any objects inside editor settings
+        var accessor = accessor
+        accessor.add(name)
+        result = newStmtList()
+        for def in impl[2][2]:
+          result.add generateSetting(def, accessor)
+      elif impl.kind != nnkNilLit and impl[2].kind == nnkEnumTy:
+        #For enum values inside editor settings
+        result = quote do:
+          proc `name`(`val`: `t`) {.exportToScript.}=
+            nimscriptSettings.`name` = `val`
+        if accessor.len > 0:
+          var newName = $accessor[0]
+          var dotExpr = newDotExpr(result[^1][0][0][0], accessor[0])
+          for x in 1..<accessor.len:
+            newName &= ($accessor[x])
+            dotExpr = newDotExpr(dotExpr, accessor[x])
+          result[0] = ident(newName.replace("Settings") & ($name))
+          result[^1][0][0] = newDotExpr(dotExpr, name)
+        ctDocs &= ($result[0]) & " : " & ($t) & "\n"
 
   macro generateSettingsProcs(a: typed): untyped =
     result = newStmtList()
@@ -1987,6 +2026,8 @@ proc loadSettingFile*(): EditorSettings =
     else:
       return parseSettingsFile(toml)
   elif hasNimscript:
+    if dirExists(getConfigDir() / "moe" ):
+      writeFile(getConfigDir() / "moe" / "nimscript.docs", docs)
     let stdlibPath = getConfigDir() / "moe" / "stdlib"
     discard loadScript(nimscriptName, "unicode", stdPath = stdlibPath) #Will run all the body logic of `moe.nims`
     result = nimscriptSettings

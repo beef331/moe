@@ -19,3 +19,5 @@ task release, "Build for release":
   exec "nim c -o:moe -d:release src/moe"
 task dScript, "Build For debug scripted":
   exec "nim c -o:moe -d:scripted -d:debugScript src/moe"
+task script, "Build For debug scripted":
+  exec "nim c -o:moe -d:scripted -d:release src/moe"
