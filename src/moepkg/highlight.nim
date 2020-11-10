@@ -9,7 +9,6 @@ type ColorSegment* = object
 
 type Highlight* = object
   colorSegments*: seq[ColorSegment]
-
 type
   ReservedWord* = object
     word*: string
