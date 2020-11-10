@@ -1954,22 +1954,16 @@ block nimscriptProcs:
       name = identDef[0][1]
       t = identDef[1]
       val = ident("val")
-    if ($t) in ["bool", "int"]:
+    if (t.kind == nnkSym and ($t) in ["bool", "int"]):
       result = quote do:
         proc `name`(`val`: `t`) {.exportToScript.}=
           nimscriptSettings.`name` = `val`
-    else:
-      for def in t.getImpl()[2][2]:
-        echo def.treeRepr
-      result = newEmptyNode()
+    else: result = newEmptyNode()
 
   macro generateSettingsProcs(a: typed): untyped =
     result = newStmtList()
     for def in a.getImpl()[2][2]:
       result.add(def.generateSetting())
-    echo result.repr
-
-
   generateColorProcs(EditorColor)
   generateSettingsProcs(EditorSettings)
 #Have to load nimscripter after all nimscripted code is ran, sucks i know
