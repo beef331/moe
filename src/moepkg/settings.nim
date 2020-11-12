@@ -2029,5 +2029,5 @@ proc loadSettingFile*(): EditorSettings =
     if dirExists(getConfigDir() / "moe" ):
       writeFile(getConfigDir() / "moe" / "nimscript.docs", docs)
     let stdlibPath = getConfigDir() / "moe" / "stdlib"
-    discard loadScript(nimscriptName, "unicode", stdPath = stdlibPath) #Will run all the body logic of `moe.nims`
+    discard loadScript(nimscriptName, true, "unicode", stdPath = stdlibPath) #Will run all the body logic of `moe.nims`
     result = nimscriptSettings
